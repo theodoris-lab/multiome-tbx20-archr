@@ -18,7 +18,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import fisher_exact
 
-ROOT = Path("/Users/bkim/vscode/V2_multiome_2026-04-14")
+ROOT = Path(__file__).resolve().parents[1]
 INDIR = ROOT / "outputs/meis_validation_rnaCM_0424"
 OUTDIR = INDIR / "plots"
 OUTDIR.mkdir(parents=True, exist_ok=True)
@@ -72,7 +72,7 @@ for ax, df, title, family_color in [
 # annotate MEIS1 specifically on TALE panel
 tale_idx = list(tale["TF_clean"]).index("MEIS1")
 axes[0].annotate(
-    "MEIS1 OR=0.97, NS\n(disconfirms §10.2 hypothesis)",
+    "MEIS1 OR=0.97, NS\n(not enriched in HOM-DOWN)",
     xy=(tale.iloc[tale_idx]["OR"], tale_idx),
     xytext=(0.55, tale_idx - 4),
     fontsize=8, color="darkred",

@@ -1,12 +1,9 @@
 # Created: 2026-04-23 13:25
 # Updated: 2026-04-23 13:25
 """
-Phase 4 of DAR_analysis_plan_rnaCM_0423.
-
 scanpy leiden clustering on ArchR Harmony embedding (rnaCM subset).
-Mirrors scripts_local/04_leiden_CM_local.py for the original run.
 
-Input : outputs/dar_rnaCM_inputs_0423/harmony_rnaCM.tsv   (scp'd from Wynton)
+Input : outputs/dar_rnaCM_inputs_0423/harmony_rnaCM.tsv   (downloaded from cluster)
 Output: outputs/dar_rnaCM_inputs_0423/leiden_rnaCM.tsv    (cellName, leiden_res04, UMAP1/2)
         outputs/dar_rnaCM_inputs_0423/leiden_sweep_rnaCM.tsv
         outputs/dar_rnaCM_inputs_0423/leiden_rnaCM_umap.png
@@ -24,7 +21,7 @@ import scanpy as sc
 sc.settings.verbosity = 3
 sc.settings.seed = 0
 
-PROJECT = Path("/Users/bkim/vscode/V2_multiome_2026-04-14")
+PROJECT = Path(__file__).resolve().parents[1]
 INPUT = PROJECT / "outputs/dar_rnaCM_inputs_0423/harmony_rnaCM.tsv"
 OUTDIR = PROJECT / "outputs/dar_rnaCM_inputs_0423"
 OUTDIR.mkdir(parents=True, exist_ok=True)

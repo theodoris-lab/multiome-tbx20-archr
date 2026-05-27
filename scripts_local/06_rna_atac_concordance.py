@@ -6,7 +6,7 @@ RNA-ATAC concordance via proximity-based peak2gene linking.
 Input:
   - outputs/dar_rnaCM_0423/DAR_HOM_vs_WT_{up,down}.tsv  (peak coords + Log2FC/FDR)
   - outputs/deg_4res_compare_0422/res0.1_c0_7/DEG_D{10,15,30}_HOM_vs_WT.csv (mature CM)
-  - downloads/refFlat_hg38.txt.gz  (UCSC refFlat for TSS coords)
+  - data/refFlat_hg38.txt.gz  (UCSC refFlat for TSS coords)
 
 Method:
   For each DAR peak, assign gene via: (1) gene body containment takes
@@ -30,11 +30,11 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from adjustText import adjust_text
 
-ROOT = Path("/Users/bkim/vscode/V2_multiome_2026-04-14")
+ROOT = Path(__file__).resolve().parents[1]
 DAR_DIR = ROOT / "outputs/dar_rnaCM_0423"
 DEG_DIR = ROOT / "outputs/deg_4res_compare_0422/res0.1_c0_7"
-REFFLAT = ROOT / "downloads/refFlat_hg38.txt.gz"
-LVNC_CSV = ROOT / "downloads/LVNC_all_genes.csv"
+REFFLAT = ROOT / "data/refFlat_hg38.txt.gz"
+LVNC_CSV = ROOT / "data/LVNC_all_genes.csv"
 OUT = ROOT / "outputs/concordance_rnaCM_0424"
 OUT.mkdir(parents=True, exist_ok=True)
 

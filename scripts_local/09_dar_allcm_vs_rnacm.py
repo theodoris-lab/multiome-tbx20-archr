@@ -1,9 +1,9 @@
 # Created: 2026-04-23 17:50
 # Updated: 2026-04-23 17:50
 # ==============================================================================
-# Phase 8 of DAR_analysis_plan_rnaCM_0423 — A/B comparison between:
-#   A) Original ATAC-CM DAR  (outputs/dar_0420/,         14,823 cells)
-#   B) rnaCM-gated DAR      (outputs/dar_rnaCM_0423/,   16,789 cells)
+# A/B comparison between:
+#   A) ATAC-CM DAR (ATAC-defined CM gate)
+#   B) rnaCM-gated DAR (RNA-defined CM gate)
 #
 # Deliverables:
 #   1. CM cell-set overlap (Venn)
@@ -27,7 +27,7 @@ from scipy.stats import spearmanr
 import matplotlib.pyplot as plt
 from matplotlib_venn import venn2
 
-ROOT = Path("/Users/bkim/vscode/V2_multiome_2026-04-14")
+ROOT = Path(__file__).resolve().parents[1]
 A_DIR = ROOT / "outputs/dar_0420"              # original ATAC-CM
 B_DIR = ROOT / "outputs/dar_rnaCM_0423"        # rnaCM-gated
 OUT = B_DIR

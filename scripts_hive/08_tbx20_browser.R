@@ -12,7 +12,7 @@ suppressPackageStartupMessages({
   library(BSgenome.Hsapiens.UCSC.hg38)
 })
 
-WORK_DIR <- "/gladstone/theodoris/lab/bkim/multi_multi/archr_dar"
+WORK_DIR <- Sys.getenv("ARCHR_WORK_DIR", "/path/to/archr_project")
 setwd(WORK_DIR)
 addArchRThreads(threads = 4)
 addArchRGenome("hg38")

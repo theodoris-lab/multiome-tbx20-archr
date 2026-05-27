@@ -1,8 +1,8 @@
 # Created: 2026-04-17 13:57
 """
-Phase 0: Extract valid barcodes + metadata for ArchR (Wynton/Hive).
+Extract valid barcodes + metadata for ArchR input.
 
-Input:  data/processed_wtD0/metadata_wtD0.tsv.gz   (43,014 doublet-removed cells)
+Input:  data/processed_wtD0/metadata_wtD0.tsv.gz   (doublet-removed cells)
 Output: scripts_hive/phase0_out/
     - valid_barcodes_G1.txt, G2.txt, G3.txt   (ATAC barcodes, one per line)
     - cell_metadata_for_archr.csv             (archr_cell_id = "G#<atac_barcode>")
@@ -10,14 +10,11 @@ Output: scripts_hive/phase0_out/
 Why ATAC barcodes (not GEX): ArchR's createArrowFiles() reads fragment files,
 which are keyed by ATAC cell barcodes. In 10x Multiome, the GEX and ATAC
 barcodes differ per-cell, so validBarcodes must be the ATAC side.
-
-Run:
-    python scripts_hive/00_extract_barcodes.py
 """
 from pathlib import Path
 import pandas as pd
 
-PROJ = Path("/Users/bkim/vscode/V2_multiome_2026-04-14")
+PROJ = Path(__file__).resolve().parents[2]  # repo root
 META = PROJ / "data/processed_wtD0/metadata_wtD0.tsv.gz"
 OUT = PROJ / "scripts_hive/phase0_out"
 OUT.mkdir(parents=True, exist_ok=True)

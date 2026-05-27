@@ -3,16 +3,14 @@
 # ==============================================================================
 # Phase 12 — MEIS1 binding-site validation: per-TALE-TF enrichment in HOM-DOWN DAR
 #
-# Question: §6 showed TALE family is the top CLOSED motif axis in HOM. §10/§11
-# resolved the MEIS1-locus paradox (MEIS1 itself reactivated, but MEIS-target CREs
-# closed). This script asks: WITHIN the TALE family, is MEIS specifically the
-# dominant driver, or do TGIF/PKNOX contribute equally?
+# Asks: within the TALE family, is MEIS specifically the dominant driver in
+# HOM-DOWN DARs, or do TGIF/PKNOX contribute equally?
 #
 # Method:
-#   1. Load ArchRSubset_rnaCM (already has Motif annotation from §6)
+#   1. Load ArchRSubset_rnaCM (already has Motif annotation)
 #   2. Extract per-peak × motif binary match matrix via getMatches()
 #   3. Load markerTest_HOM_vs_WT.rds for peak-level FDR/Log2FC
-#   4. DOWN = FDR<=0.1 & Log2FC<=-1 (§5 threshold), BG = NS (FDR>0.1)
+#   4. DOWN = FDR<=0.1 & Log2FC<=-1, BG = NS (FDR>0.1)
 #   5. Per-TALE-TF Fisher enrichment (one-sided greater) in DOWN vs BG
 #   6. Positive control: same for WT-side chromVAR top TFs (MEF2/TBX/MAFB)
 #   7. Within-DOWN co-occurrence matrix across TALE TFs

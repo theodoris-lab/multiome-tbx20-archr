@@ -1,22 +1,16 @@
 # Created: 2026-04-23 20:15
 # Updated: 2026-04-23 20:35
 # ==============================================================================
-# Phase 10 — ArchR browser tracks with HOM-vs-WT DAR shading.
+# ArchR browser tracks with HOM-vs-WT DAR shading.
 #
-# Reference: downloads/kathiriya-rao-2025-main/Fig5_atrialday20_cmsubset_ArchR.R
-#   L288-305 (Fig 5H/I — plotBrowserTrack + DAR shading)
+# Workflow adapted from Kathiriya 2026 ArchR pipeline (plotBrowserTrack + DAR shading).
 #
-# 6 loci (user-selected 2026-04-23):
+# 6 loci:
 #   TBX20, MEIS1, TGIF1, GATA2, ISL1, NKX2-5
-#   - TBX20              : study locus (chr7:35.42Mb HOM-up peak)
-#   - MEIS1, TGIF1       : HOM_DOWN TALE axis (maturation arrest)
-#   - GATA2, ISL1        : HOM_UP progenitor re-opening (dedifferentiation)
-#   - NKX2-5             : negative control (cardiac backbone should be unchanged)
-#
-# Groups shown (WT_BG + HET_FG + HOM_FG, set in 04_rnaCM_dar_peak_motif.R):
-#   C1_x_wt, C3_x_wt,
-#   C1_x_heterozygous, C3_x_heterozygous,
-#   C4_x_homozygous
+#   - TBX20        : study locus
+#   - MEIS1, TGIF1 : TALE-family CLOSED motif axis (HOM-down DARs)
+#   - GATA2, ISL1  : OPEN motif axis (HOM-up DARs)
+#   - NKX2-5       : cardiac backbone control
 #
 # Output: outputs/dar_rnaCM/browser_tracks/<GENE>.pdf
 # ==============================================================================
@@ -96,9 +90,7 @@ GENES <- c("TBX20", "MEIS1", "TGIF1", "GATA2", "ISL1", "NKX2-5")
 # ---------- 3) plotBrowserTrack ----------
 cat("\n[browser] running plotBrowserTrack for", length(GENES), "genes...\n")
 
-# Window: ±500 kb. Rationale — DAR peak density analysis shows that for 4 of 6
-# loci (TBX20, MEIS1, TGIF1, GATA2) the nearest HOM-vs-WT DAR peak is 70-490 kb
-# from the TSS. 500 kb ensures DAR shading is visible at every gene panel.
+# Window: ±500 kb — wide enough to show distal regulatory DARs at all 6 loci.
 p_list <- plotBrowserTrack(
   ArchRProj = projSub,
   groupBy   = "ClusterByGenotype",

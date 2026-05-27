@@ -5,7 +5,7 @@ suppressPackageStartupMessages({
   library(S4Vectors)
 })
 
-OUT <- "/Users/bkim/vscode/V2_multiome_2026-04-14/outputs/dar_0420"
+OUT <- file.path(Sys.getenv("PROJECT_DIR", ".."), "outputs/dar_0420")
 het <- readRDS(file.path(OUT, "markerTest_HET_vs_WT.rds"))
 hom <- readRDS(file.path(OUT, "markerTest_HOM_vs_WT.rds"))
 

@@ -1,9 +1,8 @@
 # Created: 2026-04-17 14:09
 # ==============================================================================
-# ArchR DAR pipeline — V2 Multiome TBX5 dosage (WT / Het / Hom)
+# ArchR DAR pipeline — TBX20 dosage (WT / Het / Hom)
 # ------------------------------------------------------------------------------
-# Run on Wynton. Reference pattern:
-#   downloads/kathiriya-rao-2025-main/Fig5_atrialday20_cmsubset_ArchR.R
+# Run on HPC cluster (SGE). Workflow adapted from Kathiriya 2026 ArchR pipeline.
 #
 # Inputs (placed alongside this script or in WORK_DIR):
 #   valid_barcodes_G1.txt, _G2.txt, _G3.txt   (ATAC barcodes, doublet-free)
@@ -29,7 +28,7 @@ suppressPackageStartupMessages({
 # ---- USER-EDITABLE CONFIG ----------------------------------------------------
 STAGE       <- "A"   # "A" | "B" | "C"
 WORK_DIR    <- "/gladstone/theodoris/lab/bkim/multi_multi/archr_dar"
-FRAG_DIR    <- "/gladstone/theodoris/lab/bkim/multi_multi/Cellranger_data"
+FRAG_DIR    <- Sys.getenv("CELLRANGER_DIR", "/path/to/cellranger_output")
 N_THREADS   <- 8
 
 # CM cluster IDs (fill after STAGE A inspection of marker feature plots)

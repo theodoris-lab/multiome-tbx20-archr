@@ -1,20 +1,15 @@
 # Created: 2026-04-23 13:20
 # Updated: 2026-04-23 13:20
 """
-Phase 0 of DAR_analysis_plan_rnaCM_0423.
+Compute scanpy leiden_res0.1 on rna.h5ad, select CM clusters, and export
+barcodes + metadata for ArchR subsetting (scripts_hive/09_rnacm_subset.R).
 
-Compute scanpy leiden_res0.1 on rna.h5ad (seed=0), select CM = clusters {"0", "7"},
-and dump barcodes + metadata to outputs/dar_rnaCM_inputs_0423/ for Wynton.
-
-Reproduces the clustering done in notebooks/2026-04-22_deg_4res_compare_dotplot.ipynb:
-  - neighbors on X_pca (n_neighbors=15, n_pcs=30)
-  - leiden resolution=0.1
-  - CM = clusters {"0", "7"} → expected ~17,408 cells (40.5% of 43,014)
+CM clusters: leiden_res0.1 clusters {"0", "7"} — update if re-clustering changes IDs.
 
 Outputs
 -------
 outputs/dar_rnaCM_inputs_0423/rnaCM_barcodes.tsv        (cellName)
-outputs/dar_rnaCM_inputs_0423/rnaCM_cell_metadata.tsv   (rich)
+outputs/dar_rnaCM_inputs_0423/rnaCM_cell_metadata.tsv   (rich metadata)
 outputs/dar_rnaCM_inputs_0423/rnaCM_leiden_res01.tsv    (all cells, for audit)
 """
 from __future__ import annotations
@@ -28,7 +23,7 @@ import scanpy as sc
 sc.settings.verbosity = 3
 sc.settings.seed = 0
 
-PROJECT = Path("/Users/bkim/vscode/V2_multiome_2026-04-14")
+PROJECT = Path(__file__).resolve().parents[1]
 H5AD = PROJECT / "data/anndata/rna.h5ad"
 OUTDIR = PROJECT / "outputs/dar_rnaCM_inputs_0423"
 OUTDIR.mkdir(parents=True, exist_ok=True)

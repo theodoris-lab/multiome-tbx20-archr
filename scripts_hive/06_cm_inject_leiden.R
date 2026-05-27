@@ -1,12 +1,12 @@
 # Created: 2026-04-20 14:45
 # ==============================================================================
-# Phase 2 Part 5.3 — Inject scanpy leiden labels into ArchRSubset_CM
+# Inject scanpy leiden labels into ArchRSubset_CM
 # ------------------------------------------------------------------------------
-# Prereq: 04_leiden_CM.py 완료 → ArchRSubset_CM/leiden_CM.tsv
-# Output: ArchRSubset_CM/ 에 Clusters + ClusterByGenotype 저장
+# Prereq: 05_leiden_cm.py complete → ArchRSubset_CM/leiden_CM.tsv
+# Output: ArchRSubset_CM/ with Clusters + ClusterByGenotype saved
 #         outputs/plots/CM_subset_UMAP_leiden.pdf
 #         outputs/tables/Leiden_vs_Genotype.tsv
-# Next:   06_dar_peak_motif.R (qsub 배치)
+# Next:   07_dar_peak_motif.R (submit as qsub batch)
 # ==============================================================================
 
 suppressPackageStartupMessages({
@@ -17,7 +17,7 @@ suppressPackageStartupMessages({
 
 .libPaths(.libPaths()[!grepl("/wynton/home/.*/R/x86_64", .libPaths())])
 
-WORK_DIR <- "/gladstone/theodoris/lab/bkim/multi_multi/archr_dar"
+WORK_DIR <- Sys.getenv("ARCHR_WORK_DIR", "/path/to/archr_project")
 setwd(WORK_DIR)
 
 addArchRThreads(threads = 8)
@@ -29,14 +29,14 @@ lc <- fread(file.path(WORK_DIR, "ArchRSubset_CM", "leiden_CM.tsv"),
             data.table = FALSE)
 rownames(lc) <- lc$cellName
 
-# 순서 맞춤 + ArchR 관행 라벨 (C1, C2, …)
+# Align order + apply ArchR-style labels (C1, C2, …)
 ord <- match(projCM$cellNames, rownames(lc))
 stopifnot(!any(is.na(ord)))
 leiden_int <- as.integer(as.character(lc[ord, "leiden_res04"]))
 projCM$Clusters          <- paste0("C", leiden_int + 1L)   # 0-based → 1-based
 projCM$ClusterByGenotype <- paste0(projCM$Clusters, "_x_", projCM$Genotype)
 
-# 참고용 다른 resolution도 같이 주입
+# Also inject adjacent resolutions for reference
 for (r_key in grep("^leiden_res", colnames(lc), value = TRUE)) {
   ival <- as.integer(as.character(lc[ord, r_key]))
   projCM[[paste0("Leiden_", r_key)]] <- paste0("C", ival + 1L)
@@ -66,8 +66,8 @@ plotPDF(pl, pg, pcbg, name = "CM_subset_UMAP_leiden.pdf",
 
 saveArchRProject(projCM)
 
-cat("\n완료. Leiden_vs_Genotype.tsv 검토 후 DAR 그룹 선정:\n")
-cat(" - WT 많은 cluster(들) → bgdGroups\n")
-cat(" - Het 쏠린 cluster  → HET_FG (useGroups)\n")
-cat(" - Hom 쏠린 cluster  → HOM_FG\n")
-cat("최소 cluster당 500 cells 있어야 addGroupCoverages 안정적.\n")
+cat("\nDone. Review Leiden_vs_Genotype.tsv to select DAR groups:\n")
+cat(" - WT-dominant cluster(s) → bgdGroups\n")
+cat(" - Het-skewed cluster     → HET_FG (useGroups)\n")
+cat(" - Hom-skewed cluster     → HOM_FG\n")
+cat("Need >= 500 cells per cluster for stable addGroupCoverages.\n")

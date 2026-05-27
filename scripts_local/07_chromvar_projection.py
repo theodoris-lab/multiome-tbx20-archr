@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-ROOT = Path("/Users/bkim/vscode/V2_multiome_2026-04-14")
+ROOT = Path(__file__).resolve().parents[1]
 INDIR = ROOT / "outputs/chromvar_proj_rnaCM_0424"
 OUTDIR = INDIR / "plots"
 OUTDIR.mkdir(parents=True, exist_ok=True)

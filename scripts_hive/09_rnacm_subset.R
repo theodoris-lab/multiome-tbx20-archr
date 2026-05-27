@@ -1,15 +1,14 @@
 # Created: 2026-04-23 13:25
 # Updated: 2026-04-23 13:25
 # ==============================================================================
-# Phase 2 of DAR_analysis_plan_rnaCM_0423 — subset existing ArchRProject by
-# RNA-defined CM barcodes (scanpy leiden_res0.1 cluster 0, 17,345 cells).
+# Subset existing ArchRProject by RNA-defined CM barcodes.
 #
-# Prereq: scp outputs/dar_rnaCM_inputs_0423/rnaCM_barcodes.tsv to
-#   /gladstone/theodoris/lab/bkim/multi_multi/archr_dar_rnaCM/inputs/
-# Input:  /gladstone/theodoris/lab/bkim/multi_multi/archr_dar/ArchRProject/
-# Output: /gladstone/theodoris/lab/bkim/multi_multi/archr_dar_rnaCM/ArchRSubset_rnaCM/
+# Prereq: upload rnaCM_barcodes.tsv (from scripts_local/02_extract_rnacm_barcodes.py)
+#         to INPUT_DIR on cluster before running
+# Input:  ArchRProject/ (all-cells, from 02_archr_dar_analysis.R)
+# Output: ArchRSubset_rnaCM/
 #         inputs_logs/subset_summary.txt
-# Next:   02_rnaCM_lsi_harmony.R
+# Next:   10_rnacm_lsi_harmony.R
 # ==============================================================================
 
 suppressPackageStartupMessages({
@@ -39,7 +38,7 @@ stopifnot(file.exists(bc_path))
 bc <- fread(bc_path, header = TRUE)$cellName
 cat("RNA CM barcodes from AnnData:", length(bc), "\n")
 
-# 포맷 sanity check: G{1,2,3}#<barcode>
+# Format sanity check: G{1,2,3}#<barcode>
 stopifnot(all(grepl("^G[123]#", bc)))
 
 keep_mask <- proj$cellNames %in% bc

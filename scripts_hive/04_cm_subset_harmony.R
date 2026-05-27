@@ -1,12 +1,12 @@
 # Created: 2026-04-20 14:45
 # ==============================================================================
-# Phase 2 Part 5.1 — CM subset + LSI + Harmony + UMAP, export Harmony embedding
+# CM subset + LSI + Harmony + UMAP, export Harmony embedding
 # ------------------------------------------------------------------------------
-# Prereq: 02_CM_identify.R 검토 → CM_CLUSTERS 결정
+# Prereq: review 03_cm_identify.R outputs → decide CM_CLUSTERS
 # Output: ArchRSubset_CM/ (subsetted project)
 #         ArchRSubset_CM/harmony_CM.tsv  (cells × 30 Harmony dims, for scanpy)
 #         outputs/plots/CM_subset_UMAP_before_leiden.pdf
-# Next:   04_leiden_CM.py 실행
+# Next:   run 05_leiden_cm.py
 # ==============================================================================
 
 suppressPackageStartupMessages({
@@ -17,15 +17,15 @@ suppressPackageStartupMessages({
 
 .libPaths(.libPaths()[!grepl("/wynton/home/.*/R/x86_64", .libPaths())])
 
-WORK_DIR <- "/gladstone/theodoris/lab/bkim/multi_multi/archr_dar"
+WORK_DIR <- Sys.getenv("ARCHR_WORK_DIR", "/path/to/archr_project")
 setwd(WORK_DIR)
 
 addArchRThreads(threads = 8)
 addArchRGenome("hg38")
 
 # ----------------------------------------------------------------------
-# USER: 02_CM_identify 검토 후 CM 클러스터 기입
-CM_CLUSTERS <- c("")   # 예: c("C3","C4","C6","C7") — 반드시 채울 것
+# USER: fill in CM clusters after reviewing 03_cm_identify.R outputs
+CM_CLUSTERS <- c("")   # e.g. c("C3","C4","C6","C7") — must be filled in
 # ----------------------------------------------------------------------
 stopifnot(length(CM_CLUSTERS) > 0 && all(nzchar(CM_CLUSTERS)))
 
@@ -78,4 +78,4 @@ plotPDF(pg, ps, name = "CM_subset_UMAP_before_leiden.pdf",
         ArchRProj = projCM, addDOC = FALSE, width = 5, height = 5)
 
 saveArchRProject(projCM)
-cat("ArchRSubset_CM 저장 완료. 다음: 04_leiden_CM.py\n")
+cat("ArchRSubset_CM saved. Next: run 05_leiden_cm.py\n")

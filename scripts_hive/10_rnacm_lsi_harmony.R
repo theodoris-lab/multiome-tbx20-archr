@@ -1,13 +1,13 @@
 # Created: 2026-04-23 13:25
 # Updated: 2026-04-23 13:25
 # ==============================================================================
-# Phase 3 — IterativeLSI + Harmony + UMAP within rnaCM subset.
-#            Export Harmony embedding (TSV) for local scanpy Leiden (Phase 4).
-# Prereq: 01_rnaCM_subset.R 완료 (ArchRSubset_rnaCM/ 존재)
-# Output: ArchRSubset_rnaCM/  (LSI + Harmony + UMAP 추가)
+# IterativeLSI + Harmony + UMAP within rnaCM subset.
+#            Export Harmony embedding (TSV) for local scanpy Leiden.
+# Prereq: 09_rnacm_subset.R complete (ArchRSubset_rnaCM/ exists)
+# Output: ArchRSubset_rnaCM/ (LSI + Harmony + UMAP added)
 #         ArchRSubset_rnaCM/harmony_rnaCM.tsv
 #         outputs/plots/rnaCM_UMAP_before_leiden.pdf
-# Next:   scp harmony_rnaCM.tsv to local, 06_leiden_sub_rnaCM_local.py
+# Next:   download harmony_rnaCM.tsv, run scripts_local/03_leiden_rnacm.py
 # ==============================================================================
 
 suppressPackageStartupMessages({
@@ -59,4 +59,4 @@ plotPDF(pg, ps, name = "rnaCM_UMAP_before_leiden.pdf",
         ArchRProj = projSub, addDOC = FALSE, width = 5, height = 5)
 
 saveArchRProject(projSub)
-cat("DONE. Next: scp harmony_rnaCM.tsv to local and run 06_leiden_sub_rnaCM_local.py\n")
+cat("DONE. Next: download harmony_rnaCM.tsv and run scripts_local/03_leiden_rnacm.py\n")

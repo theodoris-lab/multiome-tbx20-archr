@@ -3,12 +3,10 @@
 """
 scanpy leiden clustering on ArchR Harmony embedding (CM subset).
 
-Input : outputs/dar_archr_inputs_0420/harmony_CM.tsv  (14823 cells x 30 Harmony dims)
+Input : outputs/dar_archr_inputs_0420/harmony_CM.tsv  (cells x 30 Harmony dims)
 Output: outputs/dar_archr_inputs_0420/leiden_CM.tsv            (cell, leiden_res04, UMAP1, UMAP2)
-        outputs/dar_archr_inputs_0420/leiden_sweep_CM.tsv      (cell, leiden_res02..10)
+        outputs/dar_archr_inputs_0420/leiden_sweep_CM.tsv      (cell, sweep of resolutions)
         outputs/dar_archr_inputs_0420/leiden_CM_umap.png       (diagnostic UMAP)
-
-Runs locally with scanpy 1.10.3. Mirrors Wynton 04_leiden_CM.py.
 """
 import numpy as np
 import pandas as pd
@@ -20,7 +18,7 @@ from pathlib import Path
 sc.settings.verbosity = 3
 sc.settings.seed = 0
 
-PROJECT = Path("/Users/bkim/vscode/V2_multiome_2026-04-14")
+PROJECT = Path(__file__).resolve().parents[1]
 INPUT   = PROJECT / "outputs/dar_archr_inputs_0420/harmony_CM.tsv"
 OUTDIR  = PROJECT / "outputs/dar_archr_inputs_0420"
 OUTDIR.mkdir(parents=True, exist_ok=True)

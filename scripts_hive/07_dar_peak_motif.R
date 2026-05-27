@@ -1,11 +1,11 @@
 # Created: 2026-04-20 22:45
-# Part 6 — DAR: pseudobulk → MACS2 peak calling → PeakMatrix → DAR (Wilcoxon) → volcano + motif enrichment
+# DAR: pseudobulk → MACS2 peak calling → PeakMatrix → DAR (Wilcoxon) → volcano + motif enrichment
 #
-# DAR axes (TBX20 × LVNC × Geneformer):
-#   Axis 1 (primary) : HOM_FG (C3_x_homozygous)               vs WT_BG (C1_x_wt, C2_x_wt)  -- LVNC signature
-#   Axis 2 (clinical): HET_FG (C1_x_het, C2_x_het)            vs WT_BG                      -- patient-state
+# DAR contrasts:
+#   HOM vs WT  (homozygous TBX20-KO signature)
+#   HET vs WT  (heterozygous / patient-state)
 #
-# Prereq: 05_inject_leiden.R 완료 (projCM$Clusters 및 ClusterByGenotype 주입됨)
+# Prereq: 06_cm_inject_leiden.R complete (projCM$Clusters and ClusterByGenotype injected)
 
 suppressPackageStartupMessages({
   library(ArchR)
@@ -15,7 +15,7 @@ suppressPackageStartupMessages({
   library(BSgenome.Hsapiens.UCSC.hg38)   # required for addKmerBiasToCoverage (eval(parse(text=genome)))
 })
 
-WORK_DIR <- "/gladstone/theodoris/lab/bkim/multi_multi/archr_dar"
+WORK_DIR <- Sys.getenv("ARCHR_WORK_DIR", "/path/to/archr_project")
 setwd(WORK_DIR)
 addArchRThreads(threads = 8)
 addArchRGenome("hg38")

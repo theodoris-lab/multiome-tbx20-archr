@@ -1,13 +1,13 @@
 # Created: 2026-04-23 13:25
 # Updated: 2026-04-23 16:55
 # ==============================================================================
-# Phase 5 — Inject scanpy leiden labels into ArchRSubset_rnaCM, set up
-#           Clusters + ClusterByGenotype. Mirrors 05_inject_leiden.R.
-# Prereq: local scanpy leiden 결과 (leiden_rnaCM.tsv) Wynton 업로드 완료.
+# Inject scanpy leiden labels into ArchRSubset_rnaCM, set up
+#           Clusters + ClusterByGenotype. Mirrors 06_cm_inject_leiden.R logic.
+# Prereq: upload leiden_rnaCM.tsv (from scripts_local/03_leiden_rnacm.py) to cluster.
 # Input:  ArchRSubset_rnaCM/leiden_rnaCM.tsv  (row index = cellName, cols = leiden_res04, ...)
-# Output: ArchRSubset_rnaCM/ 에 Clusters, ClusterByGenotype 주입, UMAP plots
+# Output: ArchRSubset_rnaCM/ with Clusters, ClusterByGenotype injected + UMAP plots
 #         outputs/tables/Leiden_vs_Genotype_rnaCM.tsv
-# Next:   04_rnaCM_dar_peak_motif.R
+# Next:   12_rnacm_dar_peak_motif.R
 # ==============================================================================
 
 suppressPackageStartupMessages({
@@ -39,8 +39,8 @@ leiden_int <- as.integer(as.character(lc[ord, "leiden_res04"]))
 projSub$Clusters          <- paste0("C", leiden_int + 1L)
 projSub$ClusterByGenotype <- paste0(projSub$Clusters, "_x_", projSub$Genotype)
 
-# Note: 보조 leiden_res 컬럼은 추가하지 않음 — ArchRProject 가 [[<- 미지원.
-# 필요 시 addCellColData() 로 주입 가능.
+# Note: additional leiden_res columns are not injected — ArchRProject does not support [[<-.
+# Use addCellColData() if needed.
 
 cat("===== Clusters × Genotype (leiden res=0.4, rnaCM) =====\n")
 tab <- table(projSub$Clusters, projSub$Genotype)
@@ -65,8 +65,8 @@ plotPDF(pl, pg, pcbg, name = "rnaCM_UMAP_leiden.pdf",
 
 saveArchRProject(projSub)
 
-cat("\n완료. Leiden_vs_Genotype_rnaCM.tsv 검토 후 04_rnaCM_dar_peak_motif.R 내 DAR 그룹 수정.\n")
-cat("  - WT 많은 cluster(들) → bgdGroups\n")
-cat("  - Het 쏠린 cluster   → HET_FG\n")
-cat("  - Hom 쏠린 cluster   → HOM_FG\n")
-cat("기대: 원본 run과 유사한 분포 (C1/C2 WT+Het, C3 Hom). cluster IDs는 다를 수 있음.\n")
+cat("\nDone. Review Leiden_vs_Genotype_rnaCM.tsv and update DAR groups in 12_rnacm_dar_peak_motif.R.\n")
+cat("  - WT-dominant cluster(s) → bgdGroups\n")
+cat("  - Het-skewed cluster     → HET_FG\n")
+cat("  - Hom-skewed cluster     → HOM_FG\n")
+cat("Cluster IDs may differ from the CM-subset run; check genotype proportions.\n")

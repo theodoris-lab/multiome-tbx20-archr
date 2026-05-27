@@ -1,7 +1,7 @@
 # Created: 2026-04-23 20:00
 # Updated: 2026-04-23 20:00
 """
-Phase 9 — Rank-sorted motif enrichment plot (Kathiriya-Rao Fig 5E/F style).
+Rank-sorted motif enrichment plot (Kathiriya 2026 Fig 5E/F style).
 
 Input:
     outputs/dar_rnaCM_0423/motif_HOM_vs_WT_up.tsv
@@ -11,8 +11,6 @@ Output:
     outputs/dar_rnaCM_0423/figures/fig5E_motif_rank_HOM_up.pdf
     outputs/dar_rnaCM_0423/figures/fig5F_motif_rank_HOM_down.pdf
     outputs/dar_rnaCM_0423/figures/fig5EF_combined_motif_rank_HOM.pdf
-
-Reference: downloads/kathiriya-rao-2025-main/Fig5_atrialday20_cmsubset_ArchR.R L314-362.
 """
 from __future__ import annotations
 

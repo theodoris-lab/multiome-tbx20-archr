@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from pathlib import Path
 
-OUT = Path("/Users/bkim/vscode/V2_multiome_2026-04-14/outputs/dar_0420")
+OUT = Path(__file__).resolve().parents[1] / "outputs/dar_0420"
 TBX20_START = 35_242_030
 TBX20_END = 35_293_758
 WIN_START = 34_700_000

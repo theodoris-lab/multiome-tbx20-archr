@@ -2,14 +2,14 @@
 # =============================================================================
 # Phase 2 Part 5.2 — scanpy leiden on ArchR Harmony embedding (CM subset)
 # -----------------------------------------------------------------------------
-# Prereq: 03_CM_subset_harmony.R 완료 → ArchRSubset_CM/harmony_CM.tsv 생성됨
+# Prereq: 04_cm_subset_harmony.R complete → ArchRSubset_CM/harmony_CM.tsv exists
 # Output: ArchRSubset_CM/leiden_CM.tsv  (cellName, leiden_res02..res10)
-# Next:   05_inject_leiden.R 로 ArchRProject에 주입
+# Next:   inject into ArchRProject via 06_cm_inject_leiden.R
 # -----------------------------------------------------------------------------
-# 실행 환경: scanpy + leidenalg 설치된 conda env (컨테이너 밖, Wynton 호스트)
-#   module load CBI miniconda3   # 또는 기본 설정된 경로
+# Runtime: scanpy + leidenalg conda env (Wynton host, outside container)
+#   module load CBI miniforge3
 #   conda activate <scanpy_env>
-#   python 04_leiden_CM.py
+#   python 05_leiden_cm.py
 # =============================================================================
 
 import os
@@ -33,8 +33,8 @@ adata.obsm["X_harmony"] = X.values
 # kNN graph on Harmony dims
 sc.pp.neighbors(adata, use_rep="X_harmony", n_neighbors=30, random_state=0)
 
-# 논문 (Kathiriya-Rao 2025, ATAC Clusters_res0.4)에 맞춰 res=0.4를 주 클러스터로.
-# 이웃 resolution도 같이 계산해 sanity check / 대안 선택 가능하게.
+# res=0.4 as primary (aligns with Kathiriya-Rao 2025 ATAC Clusters_res0.4).
+# Adjacent resolutions also computed for sanity check / alternative selection.
 resolutions = [0.2, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0]
 for r in resolutions:
     key = f"leiden_res{int(r*10):02d}"
@@ -42,7 +42,7 @@ for r in resolutions:
     n = adata.obs[key].nunique()
     print(f"  {key}: {n} clusters")
 
-# 주 클러스터를 'leiden'으로 복사 (ArchR 주입 편의)
+# Copy primary cluster to 'leiden' column for easy ArchR injection
 adata.obs["leiden"] = adata.obs["leiden_res04"]
 
 out = adata.obs.copy()

@@ -1,17 +1,12 @@
 # Created: 2026-04-24 10:30
 # Updated: 2026-04-24 17:05
 # ==============================================================================
-# Phase 11 — Het chromVAR projection onto WT ↔ HOM motif-deviation axis.
-#
-# Motivation: rnaCM HET DAR = 0 peaks; at chromatin-accessibility level there is
-# no detectable Het signature. But per-cell motif deviation scores (chromVAR)
-# could still capture an intermediate Het position along the WT→HOM axis in TF
-# activity space, particularly for TALE/GATA/NKX motifs identified in §6.
+# Het chromVAR projection onto WT ↔ HOM motif-deviation axis.
 #
 # Method:
 #   1. Add MotifDeviations matrix to ArchRSubset_rnaCM (if not present)
-#   2. Compute WT_FG centroid (mean deviation z-score across WT cells) and
-#      HOM_FG centroid across the same ClusterByGenotype groups used in §5.
+#   2. Compute WT centroid (mean deviation z-score across WT cells) and
+#      HOM centroid using same ClusterByGenotype groups as DAR analysis.
 #   3. Axis vector = HOM_centroid - WT_centroid (normalised)
 #   4. Per-cell projection score = (cell_deviation - WT_centroid) · axis_unit
 #      → 0 = WT-like, 1 = HOM-like, <0 = beyond-WT, >1 = beyond-HOM

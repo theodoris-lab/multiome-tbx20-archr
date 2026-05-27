@@ -1,14 +1,14 @@
 # Created: 2026-04-23 13:25
 # Updated: 2026-04-23 17:00
 # ==============================================================================
-# Phase 6 — DAR + motif enrichment on ArchRSubset_rnaCM.
-# Mirrors 06_dar_peak_motif.R but writes to outputs/dar_rnaCM/.
+# DAR + motif enrichment on ArchRSubset_rnaCM.
+# Mirrors 07_dar_peak_motif.R but writes to outputs/dar_rnaCM/.
 #
-# DAR axes:
-#   Axis 1 (primary)  : HOM_FG vs WT_BG — amplified LVNC signature
-#   Axis 2 (clinical) : HET_FG vs WT_BG — patient-state
+# DAR contrasts:
+#   HOM vs WT  (homozygous TBX20-KO signature)
+#   HET vs WT  (heterozygous / patient-state)
 #
-# Cluster IDs below MUST be reviewed after 03_rnaCM_inject_leiden.R produces
+# Cluster IDs below MUST be reviewed after 11_rnacm_inject_leiden.R produces
 # Leiden_vs_Genotype_rnaCM.tsv. Edit WT_BG / HET_FG / HOM_FG accordingly.
 # ==============================================================================
 
@@ -75,15 +75,12 @@ cat("\n[peaks] peak set size:\n")
 print(getPeakSet(projSub))
 
 # ---------- 3) DAR groups ----------
-# Set per Leiden_vs_Genotype_rnaCM.tsv (2026-04-23 17:00):
-#   C1 : Het 2360 / Hom   88 /  WT 1681  → WT/Het baseline (no Hom)
-#   C2 : Het 1510 / Hom 1816 /  WT  762  → mixed, excluded
-#   C3 : Het 1872 / Hom   97 /  WT 1745  → WT/Het baseline (no Hom)
-#   C4 : Het  433 / Hom 2463 /  WT  262  → Hom-dominant (78%) → HOM signature
-#   C5/C6 : mixed / tiny → excluded
-WT_BG  <- c("C1_x_wt",            "C3_x_wt")              # 1,681 + 1,745 = 3,426
-HET_FG <- c("C1_x_heterozygous",  "C3_x_heterozygous")    # 2,360 + 1,872 = 4,232
-HOM_FG <- c("C4_x_homozygous")                            # 2,463
+# Set per Leiden_vs_Genotype_rnaCM.tsv — update cluster IDs to match your run.
+# Select WT-dominant clusters for WT_BG, Hom-dominant for HOM_FG, Het-dominant for HET_FG.
+# Require >= 500 cells per group for stable pseudobulk.
+WT_BG  <- c("C1_x_wt",            "C3_x_wt")
+HET_FG <- c("C1_x_heterozygous",  "C3_x_heterozygous")
+HOM_FG <- c("C4_x_homozygous")
 
 run_dar <- function(useGroups, bgdGroups, label){
   cat(sprintf("\n[DAR] %s : useGroups=%s | bgdGroups=%s\n",
