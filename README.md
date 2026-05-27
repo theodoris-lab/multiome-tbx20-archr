@@ -7,9 +7,7 @@ ATAC-seq analysis of TBX20 mutation iPSC-CMs — differentially accessible regio
 
 ## Background
 
-TBX20 mutation is associated with left ventricular non-compaction (LVNC) cardiomyopathy. This analysis uses single-nucleus RNA + ATAC (10x Genomics Multiome) from iPSC-derived cardiomyocytes (iPSC-CMs) carrying a TBX20 mutation.
-
-ArchR is used to identify differentially accessible regions (DARs), TF motif enrichment, and chromVAR deviation scores across genotypes (WT, Het, Hom).
+The goal is to identify where and when cardiomyocyte differentiation branches or delays in TBX20 mutation cells, and to use those trajectory windows as input for Geneformer-based modifier prediction.
 
 Two parallel ATAC pipelines are included:
 - **All-CM pipeline** (01–08): all cardiomyocyte clusters, ATAC peak-gated
